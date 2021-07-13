@@ -1,2 +1,2 @@
 # Stock Search Repository
-就活用
+APIの使い方とかを雑にメモしたやつ
