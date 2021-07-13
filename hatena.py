@@ -1,4 +1,12 @@
-
+# https://qiita.com/virtual_techX/items/5179b73576d86a89868e
+# このURLの記事のコードをほとんどそのまま使っています。
+import requests
+from datetime import datetime
+import hashlib
+import base64
+from xml.sax.saxutils import escape
+from chardet.universaldetector import UniversalDetector
+import random
 
 def create_hatena_text(title, name, body, updated, categories, is_draft):
     is_draft = 'yes' if is_draft else 'no'
@@ -61,12 +69,10 @@ def create_wsse_auth_text(user_name, password):
     c = 'UsernameToken Username="{0}", PasswordDigest="{1}", Nonce="{2}", Created="{3}"'
     return c.format(user_name, base64.b64encode(b_digest).decode(), base64.b64encode(b_nonce).decode(), created)
 
-if __name__ == "__main__":
+def new_post(title,text):
   USER_NAME = 'ユーザーネーム'
   BLOG_NAME = '**.hatenablog.com等'
   PASSWORD = 'API KEY(設定->詳細設定にある)'
-  TITLE="タイトル"
-  text="ここに本文"
   JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
 
   # 更新日時の設定 現在日時を設定していますが別の日時:がよかったらnowの時間を指定してください。
@@ -77,11 +83,14 @@ if __name__ == "__main__":
   body = escape(text)
   categories = []
   # is_draftをFalseにすると公開になります。Trueで下書き投稿
-  article = create_hatena_text(TITLE, USER_NAME, body, now, categories, is_draft=False)
+  article = create_hatena_text(title, USER_NAME, body, now, categories, is_draft=False)
 
   # entry_idが既存の記事の場合記事を更新する。
-  put_hatena_blog(USER_NAME, PASSWORD, entry_id=entry_id, blog_name=BLOG_NAME, data=article)
+  # put_hatena_blog(USER_NAME, PASSWORD, entry_id=entry_id, blog_name=BLOG_NAME, data=article)
   # 新規記事の投稿を行う
   post_hatena_blog(USER_NAME, PASSWORD, entry_id=entry_id, blog_name=BLOG_NAME, data=article)
   # 記事の取得を行う
-  get_hatena_blog(USER_NAME, PASSWORD, entry_id=entry_id, blog_name=BLOG_NAME, data=article)
+  # get_hatena_blog(USER_NAME, PASSWORD, entry_id=entry_id, blog_name=BLOG_NAME, data=article)
+
+if __name__=="__main__":
+  new_post("筋肉について","人は俺を裏切ることがある。しかし筋肉は俺を裏切らない。そもそも人間の体は...")
