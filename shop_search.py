@@ -1,5 +1,4 @@
 import requests
-import concurrent.futures
 
 def child(url):
     try:
@@ -10,13 +9,9 @@ def child(url):
         if "在庫ありの条件をここに記入" in a.text:
             return True
 def search(urls):
-    executor = concurrent.futures.ThreadPoolExecutor(max_workers=2)
     results = []
     for url in urls:
-        r=executor.submit(child,url)
-        results.append(r)
-    for r in results:
-        if r.result():
+        if child(url):
             return True
 
 if __name__ == "__name__":
