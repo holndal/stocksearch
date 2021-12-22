@@ -1,5 +1,7 @@
 #!pip3 install speedtest-cli
+# ※注意；うまく動かなかったら下記githubからインストールすると改善されることがあります。
 # https://github.com/sivel/speedtest-cli
+
 import speedtest
 def get_speed_test():
   servers = []
@@ -8,7 +10,7 @@ def get_speed_test():
   stest.get_best_server()
   return stest
 
-# 結果を 数字(Mbps)で返す
+# 結果をfloat型で返す(単位はMbps)
 def get_speed():
   stest = get_speed_test()
   result = stest.download()
