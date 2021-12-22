@@ -75,17 +75,18 @@ def new_post(title,text):
   PASSWORD = 'API KEY(設定->詳細設定にある)'
   JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
 
-  # 更新日時の設定 現在日時を設定していますが別の日時:がよかったらnowの時間を指定してください。
+  # 更新日時の設定 現在日時を設定
   now=datetime.datetime.now(JST)
 
   # entry_idがNoneのときは自動でentry_idが生成されます。
-  entry_id="26006613786015049"
+  entry_id=None
   body = escape(text)
   categories = []
   # is_draftをFalseにすると公開になります。Trueで下書き投稿
   article = create_hatena_text(title, USER_NAME, body, now, categories, is_draft=False)
 
   # entry_idが既存の記事の場合記事を更新する。
+  # 該当記事がないとputしてもnot found404で記事が投稿できなかったかもしれません。
   # put_hatena_blog(USER_NAME, PASSWORD, entry_id=entry_id, blog_name=BLOG_NAME, data=article)
   # 新規記事の投稿を行う
   post_hatena_blog(USER_NAME, PASSWORD, entry_id=entry_id, blog_name=BLOG_NAME, data=article)
@@ -93,4 +94,4 @@ def new_post(title,text):
   # get_hatena_blog(USER_NAME, PASSWORD, entry_id=entry_id, blog_name=BLOG_NAME, data=article)
 
 if __name__=="__main__":
-  new_post("筋肉について","人は俺を裏切ることがある。しかし筋肉は俺を裏切らない。そもそも人間の体は...")
+  new_post("title","text")
